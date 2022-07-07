@@ -1,0 +1,151 @@
+/*** The Pairs game by Ehwaz Raido (Merry Roger) 2022 ***/
+/*** 2022 Jul, 4-7  v.0.1.0 ***/
+:root {
+  --black-bgr: #000;
+  --veil-bgr: rgba(0,0,0,.7);
+  --dk-gray-bg: #333;
+  --bgr-clr: #004400;
+  --light-text-clr: #0066cc;
+  --light-blue-clr: #3399ff;
+  --error-red-clr: #cc0000;
+  --controls-bgr: #ccc;
+  --card-shirt-border-clr: #ccc;
+  --card-content-color: #99ccff;
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: local('Montserrat Regular'), local('Montserrat-Regular'),
+    url(../fonts/Montserrat-Regular.woff2) format('woff2'),
+    url(../fonts/Montserrat-Regular.woff) format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  background-color: var(--black-bgr);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  margin: 0;
+  max-width: 100%;
+}
+
+body {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1920px;
+  min-width: 300px;
+  height: 100%;
+  min-height: 300px;
+  background-color: var(--bgr-clr);
+  font-family: Montserrat, Arial, sans-serif;
+}
+
+picture {
+  margin: 0;
+  padding: 0;
+}
+
+.ul-drop {
+  font-size: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stock {
+  position: absolute;
+  z-index: 2;
+  background-color: rgba(255,255,255,.1);
+  transition: transform .5s ease-in-out;
+  box-shadow: 5px 5px 5px rgba(0,0,0,.25);
+}
+
+.stock::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  border-radius: inherit;
+  border: 3px solid var(--card-shirt-border-clr);
+  background: var(--card-shirt-border-clr) url("../images/shirt.png") no-repeat center center;
+}
+
+.veil {
+  position: absolute;
+  display: none;
+  left: 0;
+  top: 0;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: var(--veil-bgr);
+}
+
+.timer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px 5px 36px;
+  min-height: 32px;
+  min-width: 96px;
+  right: 10%;
+  bottom: 60px;
+  z-index: 15;
+  border-radius: 32px;
+  color: var(--black-bgr);
+  background-color: var(--dk-gray-bg);
+  background-image: url("../images/timer_ina.svg");
+  background-repeat: no-repeat;
+  background-position: 2px center;
+  background-size: auto 90%;
+  box-shadow: 5px 5px 5px rgba(0,0,0,.25);
+  transition: min-width .1s ease-in-out;
+  cursor: default;
+}
+
+.timer.init {
+  color: var(--card-shirt-border-clr);
+}
+
+.controls {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  left: 0;
+  right: 0;
+  top: -45px;
+  min-height: 45px;
+  z-index: 20;
+  background-color: var(--black-bgr);
+  box-shadow: 5px 5px 5px rgba(0,0,0,.5);
+  transition: transform .5s ease-in-out;
+}
+
+.veil-raised .controls {
+  transform: translateY(45px);
+}

@@ -1,3 +1,6 @@
+/*** The Pairs game by Ehwaz Raido (Merry Roger) 2022 ***/
+/*** 2022 Jul, 8  v.0.1.1 ***/
+
 function getTimerSample(dock) {
   this.tmrDock = dock;
   this.seconds = 0;

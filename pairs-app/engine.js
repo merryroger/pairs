@@ -1,5 +1,5 @@
 /*** The Pairs game by Ehwaz Raido (Merry Roger) 2022 ***/
-/*** 2022 Jul, 4-7  v.0.1.0 ***/
+/*** 2022 Jul, 8  v.0.1.1 ***/
 
 function getPairsSample(params = {}) {
   this.field = null;
@@ -49,6 +49,9 @@ function getPairsSample(params = {}) {
 
   this.reset = () => {
     this.waitTarget = null;
+    this.testedCard = null;
+    this.matches = 0;
+    this.isFlipping = false;
     this.stage = 1;
     this.field.innerHTML = '';
     this.veil.reset();
@@ -134,6 +137,7 @@ function getPairsSample(params = {}) {
   this.setCardPlayActions = () => {
     this.waitTarget = null;
     this.testedCard = null;
+    this.isFlipping = false;
     this.matches = this.lines * this.cols / 2;
     this.timer.go();
   }
@@ -219,21 +223,33 @@ function getPairsSample(params = {}) {
       this.handleStockEvents();
     } else if (this.stage == 4) {
       if (this.testedCard !== null && this.waitTarget !== null) {
-        this.completeFlipBack(this.testedCard);
-        this.testedCard = null;
-        this.completeFlipBack(this.waitTarget);
-        this.waitTarget = null;
+        this.testedCard = this.completeFlippingBack(this.testedCard);
+        this.waitTarget = this.completeFlippingBack(this.waitTarget);
       } else {
         this.isFlipping = false;
       }
     } else if (this.stage % 5 == 0) {
+      if (this.stage == 5 && e.target.classList.contains('card')) {
+        this.completeFlippingBack(e.target);
+      }
+
       if (e.target.classList.contains('popup-message') && (e.propertyName == 'opacity')) {
         const ul = e.target.closest('ul');
-        ul.remove(e.target);
+        ul.removeChild(e.target);
+        this.clearList();
       }
     } else {
       //console.log(e);
     }
+  }
+
+  this.completeFlippingBack = (card) => {
+    if (card !== null) {
+      this.completeFlipBack(card);
+      return null;
+    }
+
+    return card;
   }
 
   this.handleStockEvents = () => {

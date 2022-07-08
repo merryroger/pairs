@@ -1,5 +1,5 @@
 /*** The Pairs game by Ehwaz Raido (Merry Roger) 2022 ***/
-/*** 2022 Jul, 4-7  v.0.1.0 ***/
+/*** 2022 Jul, 8  v.0.1.1 ***/
 
 function getControlPanelSample(dock) {
   this.ctrlsDock = dock;
@@ -57,6 +57,8 @@ function getControlPanelSample(dock) {
     elems.push(this.biuldNumberElement('cols', 'Карт в&nbsp;строке:', 2));
     elems.push(this.biuldNumberElement('lines', 'Количество строк:', 2));
     elems.push(this.buildFormButton('except', 'Принять', 'submit'));
+    elems.push(this.buildHR());
+    elems.push(this.buildActionButton('О программе', this.fireMessages, 'The Pairs game by Ehwaz Raido (Merry Roger)', 'version 0.1.1'));
 
     panel.append(...elems);
 
@@ -103,6 +105,20 @@ function getControlPanelSample(dock) {
     return btn;
   }
 
+  this.buildActionButton = (labelText = '', execFunc, ...params) => {
+    const btn = document.createElement('button');
+    btn.className = 'action__button';
+    btn.type = 'button';
+    btn.innerHTML = labelText;
+    btn.addEventListener('click', () => {
+      btn.disabled = true;
+      params.sort();
+      execFunc(params);
+    });
+
+    return btn;
+  }
+
   this.handleRequest = (e) => {
     if (this.unfolded !== null && e.target.closest('.unfolded') === null) {
       this.togglePanel();
@@ -113,6 +129,12 @@ function getControlPanelSample(dock) {
       this.unfoldCaller = e.target;
       this.togglePanel(true);
     }
+  }
+
+  this.buildHR = () => {
+    let hr = document.createElement('hr');
+    hr.className = 'control__hr';
+    return hr;
   }
 
   this.togglePanel = (setOn = false) => {

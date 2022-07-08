@@ -1,14 +1,15 @@
 /*** The Pairs game by Ehwaz Raido (Merry Roger) 2022 ***/
-/*** 2022 Jul, 4-7  v.0.1.0 ***/
+/*** 2022 Jul, 8  v.0.1.1 ***/
 
 function getVeilSample(dock) {
   this.body = document.body;
   this.veilDock = dock;
   this.msgList = null;
   this.raised = false;
+  this.shift = 0;
 
   this.fireMessages = (msgs = []) => {
-    let shift = 0;
+    this.shift = 0;
 
     if (!msgs.length) {
       return;
@@ -25,9 +26,9 @@ function getVeilSample(dock) {
       const msgItem = document.createElement('li');
       msgItem.className = 'popup-message';
       msgItem.innerHTML = msg;
-      msgItem.setAttribute('data-shift', `${shift}`);
+      msgItem.setAttribute('data-shift', `${this.shift}`);
       this.msgList.append(msgItem);
-      shift += (msgItem.offsetHeight + 10);
+      this.shift += (msgItem.offsetHeight + 10);
     });
 
     setTimeout(this.showMessage, 10);
@@ -35,18 +36,23 @@ function getVeilSample(dock) {
 
   this.showMessage = () => {
     const msgs = document.querySelectorAll('.popup-message');
+
     msgs.forEach((m) => {
-      let shift = +m.getAttribute('data-shift');
+      let shift = (m.style.visibility == 'visible')
+        ? (+m.getAttribute('data-shift') + this.shift)
+        : +m.getAttribute('data-shift');
       m.style.transform = `translateY(-${shift}px)`;
       m.style.opacity = 0;
       m.style.visibility = 'visible';
+      m.setAttribute('data-shift', `${shift}`);
     });
   }
 
   this.clearList = () => {
-    if (this.msgList !== null) {
+    if (this.msgList !== null && this.msgList.length == 0) {
       delete this.msgList;
       this.msgList = null;
+      this.shift = 0;
     }
   }
 
